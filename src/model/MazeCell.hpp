@@ -34,7 +34,7 @@ public:
 	
 	MazeCellType getType() const { return type_; }	
 	
-	bool isWall() const {return type_ == MazeCellType::EMPTY;}
+	bool isWall() const {return type_ != MazeCellType::EMPTY;}
 	
 	bool isCollided(const DoublePoint &pos, double gap) const;
 	
