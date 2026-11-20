@@ -33,3 +33,15 @@ sudo apt install \
     libdecor-0-dev \
     pkg-config
 ```
+
+## Install SDL
+
+Execute this inside some directory `{libs}`:
+```script
+git clone https://github.com/libsdl-org/SDL.git SDL
+```
+
+Create a symbolic link to this directory in your project in your `vendored` directory:
+```script
+ln -s {libs}/SDL SDL
+```
