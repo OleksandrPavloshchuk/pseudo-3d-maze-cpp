@@ -2,5 +2,5 @@
 
 set -x
 
-./cmakew -S .. -B ../build -G Ninja "$@"
+./cmakew -S .. -B ../build -G Ninja -DSDL_X11_XTEST=OFF "$@"
 
