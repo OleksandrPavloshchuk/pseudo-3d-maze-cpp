@@ -4,6 +4,10 @@
  
 #include <SDL3/SDL.h>
 
+#include "constants.hpp"
+#include "model/Point.hpp"
+#include "model/MazeCell.hpp"
+
 int main() {
     	if (!SDL_Init(SDL_INIT_VIDEO)) {
         	SDL_Log("SDL initialization failed: %s", SDL_GetError());
