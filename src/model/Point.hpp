@@ -14,11 +14,11 @@ public:
 		y_(y)
 	{}
 	
-	inline T getX() const { return x_; }
-	inline T getY() const { return y_; }
+	T getX() const { return x_; }
+	T getY() const { return y_; }
 	
-	inline void setX(T x) { this.x_ = x; }
-	inline void setY(T y) { this.y_ = y; }
+	void setX(T x) { this.x_ = x; }
+	void setY(T y) { this.y_ = y; }
 
 private:
 	T x_;

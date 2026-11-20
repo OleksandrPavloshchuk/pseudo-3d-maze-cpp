@@ -4,13 +4,11 @@
  
 #pragma once
 
-#include "../constants.hpp"
 #include "Point.hpp"
 
-enum MazeCellType {
+enum class MazeCellType {
 	EMPTY, WALL, WINDOW, PICTURE, EXIT_DOOR
 };
-
 
 class MazeCell {
 public:
@@ -24,9 +22,15 @@ public:
 		type_(type)
 	{}
 	
-	inline const IntPoint getIndex() const { return index_; }
-	inline const DoublePoint getCenter() const { return center_; }
-	inline const MazeCellType getType() const { return type_; }	
+	IntPoint getIndex() const { return index_; }
+	DoublePoint getCenter() const { return center_; }
+	MazeCellType getType() const { return type_; }	
+	
+	bool isWall() const {
+		return type_ == MazeCellType::EMPTY;
+	}
+	
+	bool isCollided(const DoublePoint &pos, double gap) const;
 	
 private:
 	const IntPoint index_;
