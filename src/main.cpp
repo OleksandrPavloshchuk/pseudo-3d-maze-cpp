@@ -7,6 +7,7 @@
 #include "constants.hpp"
 #include "model/Point.hpp"
 #include "model/MazeCell.hpp"
+#include "model/Intersection.hpp"
 
 int main() {
     	if (!SDL_Init(SDL_INIT_VIDEO)) {

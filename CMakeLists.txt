@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
 	${SRC_MAIN}/main.cpp
 	${SRC_MAIN}/model/Point.cpp
 	${SRC_MAIN}/model/MazeCell.cpp
+	${SRC_MAIN}/model/Intersection.cpp
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)

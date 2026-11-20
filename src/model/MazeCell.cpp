@@ -2,7 +2,6 @@
  * MazeCell.cpp
  */
  
-#include "../constants.hpp" 
 #include "MazeCell.hpp"
 
 bool MazeCell::isCollided(const DoublePoint &pos, double gap) const {
@@ -13,3 +12,12 @@ bool MazeCell::isCollided(const DoublePoint &pos, double gap) const {
 	);
 }
 
+bool MazeCell::isOnEdge(const DoublePoint &p) const {
+        if (p.getY() == y0() || p.getY() == y1()) {
+        	return p.getX() >= x0() && p.getX() <= x1();
+        }
+        if (p.getX() == x0() || p.getX() == x1()) {
+        	return p.getY() >= y0() && p.getY() <= y1();
+        }
+        return false;
+}
