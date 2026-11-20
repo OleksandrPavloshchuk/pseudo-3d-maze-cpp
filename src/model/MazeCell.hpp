@@ -5,16 +5,33 @@
 #pragma once
 
 #include "../constants.hpp"
+#include "Point.hpp"
+
+enum MazeCellType {
+	EMPTY, WALL, WINDOW, PICTURE, EXIT_DOOR
+};
+
 
 class MazeCell {
 public:
 	MazeCell(
-		const IntPoint &index
+		const IntPoint &index,
+		const DoublePoint &center,
+		const MazeCellType &type
 	):
-		index_(index)
+		index_(index),
+		center_(center),
+		type_(type)
 	{}
+	
+	inline const IntPoint getIndex() const { return index_; }
+	inline const DoublePoint getCenter() const { return center_; }
+	inline const MazeCellType getType() const { return type_; }	
+	
 private:
-	const IntPoint &index_;
+	const IntPoint index_;
+	const DoublePoint center_;
+	const MazeCellType type_;
 };
 
 /*
