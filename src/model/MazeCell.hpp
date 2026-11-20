@@ -5,16 +5,24 @@
 #pragma once
 
 #include "../constants.hpp"
+#include "Point.hpp"
+
 
 class MazeCell {
 public:
 	MazeCell(
-		const IntPoint &index
+		const IntPoint &index,
+		const DoublePoint &center
 	):
-		index_(index)
+		index_(index),
+		center_(center)
 	{}
+	
+	inline const IntPoint getIndex() const { return index_; }
+	inline const DoublePoint getCenter() const { return center_; }
 private:
 	const IntPoint &index_;
+	const DoublePoint &center_;
 };
 
 /*
