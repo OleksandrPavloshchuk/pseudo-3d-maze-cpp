@@ -27,17 +27,14 @@ void updateScene(SDL_Renderer*& renderer, SDL_Texture*& texture) {
 	// TODO temporary test
 	for (int x=0; x<fpvWidth; x++) {
 		for (int y=0; y<fpvHeight; y++) {
-			uint8_t r = x % 256;
-			uint8_t g = y % 256;
-			uint8_t b = 128;
-			uint8_t a = 255;
-
-			uint32_t color =
-				r |
-				(g << 8) |
-				(b << 16) |
-				(a << 24);
-			frameBuffer.setPixel(x, y, color);
+			Pixel pixel{
+				(uint8_t) ((x) % 256),
+				(uint8_t) ((x + y) % 256),
+				(uint8_t) ((y) % 256),
+				(uint8_t) 255
+			};
+			
+			frameBuffer.setPixel(x, y, pixel);
 		}	
 	}
 	
@@ -121,21 +118,20 @@ int main() {
         	return 1;
     	}
 
+	SDL_SetRenderDrawColor(renderer, 30, 30, 40, 255);
+        SDL_RenderClear(renderer);
+	updateScene(renderer, texture);
+        	
+    	
     	bool running = true;
     	SDL_Event event;
-
     	while (running) {
         	while (SDL_PollEvent(&event)) {
         		if (event.type == SDL_EVENT_QUIT) {
                 		running = false;
             		}
         	}
-        	SDL_SetRenderDrawColor(renderer, 30, 30, 40, 255);
-        	SDL_RenderClear(renderer);
-        	
         	updateScene(renderer, texture);
-        	
-        	SDL_RenderPresent(renderer);
     	}
 
 	SDL_DestroyTexture(texture);

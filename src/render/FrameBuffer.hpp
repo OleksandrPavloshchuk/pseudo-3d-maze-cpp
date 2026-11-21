@@ -6,7 +6,14 @@
  
 #include <cstdint>
 #include <vector>
- 
+
+struct Pixel {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    uint8_t a;
+};
+
 class FrameBuffer {
 public:
     FrameBuffer(
@@ -15,18 +22,20 @@ public:
     ):
     	width_(width),
     	height_(height),
-    	pixels_(width * height, 0)
+    	pixels_(width * height, Pixel{})
     {
     }
 
     void clear();
-    void setPixel(int x, int y, uint32_t color);
+    void setPixel(int x, int y, Pixel pixel);
     
-    const std::vector<uint32_t>& getPixels() const { return pixels_; }
+    const std::vector<Pixel>& getPixels() const { return pixels_; }
     int getWidth() const { return width_; } 
 
 private:
+    Pixel emptyPixel_;
+
     int width_;
     int height_;
-    std::vector<uint32_t> pixels_;
+    std::vector<Pixel> pixels_;
 };
