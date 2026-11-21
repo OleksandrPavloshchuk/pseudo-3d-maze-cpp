@@ -4,52 +4,30 @@
  
 #pragma once
 
+#include <vector>
 
-/*
-import {Player} from "./Player"
-import {Maze} from "./Maze"
-import {Intersection, Point} from "./Point"
-import {cosCache, sinCache} from "../trigonometryCache";
+#include "Player.hpp"
+#include "Intersection.hpp"
+#include "Maze.hpp"
 
-export class IntersectionsDetector {
+class IntersectionsDetector {
+public:
+	IntersectionsDetector(
+		const Player &player,
+		const Maze &maze
+	):
+		player_(player),
+		maze_(maze)
+	{
+	}
+	
+	std::vector<Intersection> calculate();
 
-    constructor(
-        private readonly player: Player,
-        private readonly maze: Maze
-    ) {
-    }
+private:
 
-    calculate = () => {
+    	double distance(const DoublePoint &p);
+        
+	const Player player_;
+	const Maze maze_;
 
-        const result: Intersection[] = []
-
-        for (let a = -this.player.viewAngleHalfWidth; a <= this.player.viewAngleHalfWidth; a += this.player.viewAngleStep) {
-            const dx = cosCache.get(a + this.player.viewAngleMiddle)
-            const dy = sinCache.get(a + this.player.viewAngleMiddle)
-
-            let min: Intersection | undefined = undefined
-
-            for (let cell of this.maze.field) {
-                cell.getEdgesIntersection(this.player.position, dx, dy).forEach(i => {
-                    i.enrich(a, dx, dy, cell, this.distance(i.point))
-                    if (cell.isWall() && (!min || min.distance! > i.distance!)) {
-                        min = i
-                    }
-                })
-            }
-            if (min) {
-                result.push(min)
-            }
-        }
-
-        return result
-    }
-
-    private distance = (p: Point) =>
-        Math.sqrt(pow2(p.x - this.player.position.x) + pow2(p.y - this.player.position.y))
-
-}
-
-const pow2 = (n: number) => n * n
-
-*/
+};

@@ -35,12 +35,12 @@ public:
     	double viewAngleStep_;
     	double viewAngleSteps_;
     	double viewAngleMiddle_;
+	static const double viewAngleHalfWidth_;
 
 private:
 
 	static const double turnStep_;
 	static const double moveStep_;
-	static const double viewAngleHalfWidth_;
 	
 	void doStep(const Maze &maze, double x, double y);
 	
