@@ -30,6 +30,7 @@ add_executable(${PROJECT_NAME}
 	${SRC_MAIN}/model/IntersectionsDetector.cpp	
 	${SRC_MAIN}/model/Player.cpp
 	${SRC_MAIN}/render/FrameBuffer.cpp
+	${SRC_MAIN}/render/Renderer.cpp
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)

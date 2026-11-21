@@ -11,7 +11,7 @@
 #include "model/Intersection.hpp"
 #include "model/IntersectionsDetector.hpp"
 #include "model/Maze.hpp"
-
+#include "render/Renderer.hpp"
 #include "render/FrameBuffer.hpp"
 
 // Global variables
@@ -108,6 +108,14 @@ int main() {
     	);
 
     	const Player player(startPos, fpvWidth);
+    	
+    	Renderer renderer(fpvWidth, fpvHeight);
+    	if (!renderer.initialize()) {
+    		return 1;
+    	}
+    	renderer.mainLoop();
+    	
+    	/*
 
     	SDL_Window* window = nullptr;
     	SDL_Renderer* renderer = nullptr;
@@ -140,4 +148,5 @@ int main() {
 	SDL_Quit();
 
 	return 0;
+*/	
 }
