@@ -12,53 +12,77 @@
 #include "model/IntersectionsDetector.hpp"
 #include "model/Maze.hpp"
 
+// Global variables
+const int playerWallGap = 6;
+
+const int fpvWidth = 800;
+const int fpvHeight = 640;
+
+void initialize(const Maze &maze, const Player &player) {
+	// TODO
+}
+
+bool initialize(SDL_Window*& window, SDL_Renderer*& renderer) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
+        SDL_Log("SDL initialization failed: %s", SDL_GetError());
+        return false;
+    }
+
+    if (!SDL_CreateWindowAndRenderer(
+        "Pseudo 3D Maze",
+        fpvWidth,
+        fpvHeight,
+        0,
+        &window,
+        &renderer
+    )) {
+        SDL_Log("Window creation failed: %s", SDL_GetError());
+        return false;
+    }
+
+    return true;
+}
+
+// Entry point
 int main() {
-    	if (!SDL_Init(SDL_INIT_VIDEO)) {
-        	SDL_Log("SDL initialization failed: %s", SDL_GetError());
-        	return 1;
-    	}
-    	
+    const Maze maze = loadMaze(
+        "/home/oleksandr/personal/c++/pseudo-3d-maze-cpp/mazes/3.txt",
+        playerWallGap
+    );
 
-    	SDL_Window* window = SDL_CreateWindow(
-        	"Pseudo 3D Maze",
-        	640,
-        	480,
-        	0
-    	);
+    const DoublePoint startPos(
+        TEXTURE_SIZE * 1.5,
+        TEXTURE_SIZE * 1.5
+    );
 
-    	if (window == nullptr) {
-        	SDL_Log("Window creation failed: %s", SDL_GetError());
-        	SDL_Quit();
-        	return 1;
-    	}
+    const Player player(startPos, fpvWidth);
 
-    	SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
 
-    	if (renderer == nullptr) {
-        	SDL_Log("Renderer creation failed: %s", SDL_GetError());
-        	SDL_DestroyWindow(window);
-        	SDL_Quit();
-        	return 1;
-    	}
+    if (!initialize(window, renderer)) {
+        SDL_Quit();
+        return 1;
+    }
 
-	bool running = true;
-	SDL_Event event;
+    bool running = true;
+    SDL_Event event;
 
-	while (running) {
-		while (SDL_PollEvent(&event)) {
-			if (event.type == SDL_EVENT_QUIT) {
-				running = false;
-			}
-        	}
+    while (running) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_EVENT_QUIT) {
+                running = false;
+            }
+        }
 
-        	SDL_SetRenderDrawColor(renderer, 30, 30, 40, 255);
-        	SDL_RenderClear(renderer);
-        	SDL_RenderPresent(renderer);
-    	}
+        SDL_SetRenderDrawColor(renderer, 30, 30, 40, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+    }
 
-    	SDL_DestroyRenderer(renderer);
-    	SDL_DestroyWindow(window);
-    	SDL_Quit();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
-    	return 0;
+    return 0;
 }

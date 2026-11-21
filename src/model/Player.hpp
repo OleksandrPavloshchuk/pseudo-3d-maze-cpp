@@ -13,7 +13,7 @@
 class Player {
 public:
 	Player(
-		DoublePoint &position,
+		const DoublePoint &position,
 		double fpvWidth
 	):
 		position_(position),
