@@ -9,7 +9,7 @@
 class FpvRenderer : public Renderer {
 public:
 	FpvRenderer(int width, int height):
-		Renderer(width, height)
+		Renderer("Pseudo 3D Maze (2)", width, height)
 	{
 	}
 protected:

@@ -24,7 +24,7 @@ bool Renderer::initialize() {
     	}
 
     	if (!SDL_CreateWindowAndRenderer(
-       		"Pseudo 3D Maze",
+       		title_.c_str(),
        		width_,
        		height_,
        		0,

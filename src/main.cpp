@@ -6,18 +6,15 @@
 
 #include "constants.hpp"
 #include "loadMaze.hpp"
-#include "model/Point.hpp"
-#include "model/MazeCell.hpp"
-#include "model/Intersection.hpp"
-#include "model/IntersectionsDetector.hpp"
+#include "model/Player.hpp"
 #include "model/Maze.hpp"
 #include "render/FpvRenderer.hpp"
 
 // Global variables
 const int playerWallGap = 6;
 
-const int fpvWidth = 800;
-const int fpvHeight = 640;
+const int fpvWidth = 1024;
+const int fpvHeight = 768;
 
 // Entry point
 int main() {
@@ -38,5 +35,7 @@ int main() {
     		return 1;
     	}
     	renderer.mainLoop();
+    	
+    	return 0;
     		
 }

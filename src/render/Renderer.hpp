@@ -4,16 +4,18 @@
  
 #pragma once
 
+#include <string>
 #include <SDL3/SDL.h>
 
 #include "FrameBuffer.hpp"
 
 class Renderer {
 public:
-	Renderer(int width, int height):
+	Renderer(const std::string &title, int width, int height):
 		width_(width),
 		height_(height),
-		frameBuffer_(FrameBuffer(width, height))
+		title_(title),
+		frameBuffer_(width, height)
 	{
 	}
 		
@@ -36,6 +38,8 @@ protected:
 	
 private:	
 	void render();	
+	
+	const std::string title_;
 	
 	FrameBuffer frameBuffer_;
 
