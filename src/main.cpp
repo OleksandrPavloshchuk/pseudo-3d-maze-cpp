@@ -8,6 +8,7 @@
 #include "model/Point.hpp"
 #include "model/MazeCell.hpp"
 #include "model/Intersection.hpp"
+#include "model/IntersectionsDetector.hpp"
 #include "model/Maze.hpp"
 
 int main() {

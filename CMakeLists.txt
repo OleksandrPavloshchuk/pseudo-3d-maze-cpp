@@ -26,6 +26,8 @@ add_executable(${PROJECT_NAME}
 	${SRC_MAIN}/model/MazeCell.cpp
 	${SRC_MAIN}/model/Maze.cpp
 	${SRC_MAIN}/model/Intersection.cpp
+	${SRC_MAIN}/model/IntersectionsDetector.cpp	
+	${SRC_MAIN}/model/Player.cpp
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)

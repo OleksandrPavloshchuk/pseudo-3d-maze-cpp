@@ -17,8 +17,8 @@ public:
 	T getX() const { return x_; }
 	T getY() const { return y_; }
 	
-	void setX(T x) { this.x_ = x; }
-	void setY(T y) { this.y_ = y; }
+	void setX(T x) { x_ = x; }
+	void setY(T y) { y_ = y; }
 
 private:
 	T x_;
