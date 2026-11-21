@@ -5,6 +5,7 @@
 #include <SDL3/SDL.h>
 
 #include "constants.hpp"
+#include "loadMaze.hpp"
 #include "model/Point.hpp"
 #include "model/MazeCell.hpp"
 #include "model/Intersection.hpp"
