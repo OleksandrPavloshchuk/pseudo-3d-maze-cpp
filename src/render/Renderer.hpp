@@ -17,18 +17,26 @@ public:
 	{
 	}
 		
-	~Renderer();
+	virtual ~Renderer();
 	Renderer(const Renderer&) = delete;
 	Renderer& operator=(const Renderer&) = delete;	
 	
 	bool initialize();
 	void mainLoop();
+	
+protected:
+	virtual void updateFrameBuffer() = 0;
+	
+	void setPixel(int x, int y, Pixel pixel) {
+		frameBuffer_.setPixel(x, y, pixel);
+	}	
 
-private:
-	void update();
-
-	int width_;
-	int height_;
+	const int width_;
+	const int height_;
+	
+private:	
+	void render();	
+	
 	FrameBuffer frameBuffer_;
 
 	SDL_Window* window_ = nullptr;

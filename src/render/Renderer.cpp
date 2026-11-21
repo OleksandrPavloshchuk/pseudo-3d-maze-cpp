@@ -52,8 +52,7 @@ bool Renderer::initialize() {
 void Renderer::mainLoop() {
 	SDL_SetRenderDrawColor(renderer_, 30, 30, 40, 255);
         SDL_RenderClear(renderer_);
-//	updateScene(renderer, texture);
-	update();
+	render();
         	    	
     	SDL_Event event;
     	while (true) {
@@ -65,22 +64,9 @@ void Renderer::mainLoop() {
     	}	
 }
 
-// TODO invoke FPV rendering here
-void Renderer::update() {
-	// TODO temporary test
-	for (int x=0; x<width_; x++) {
-		for (int y=0; y<height_; y++) {
-			Pixel pixel{
-				(uint8_t) ((x) % 256),
-				(uint8_t) ((x + y) % 256),
-				(uint8_t) ((y) % 256),
-				(uint8_t) 255
-			};
-			
-			frameBuffer_.setPixel(x, y, pixel);
-		}	
-	}
-	
+void Renderer::render() {
+	updateFrameBuffer();	
+
 	if (!SDL_UpdateTexture(
     		texture_,
     		nullptr, // all area
