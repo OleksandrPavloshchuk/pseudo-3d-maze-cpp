@@ -4,8 +4,8 @@
 
 #include "Player.hpp"
 
-const double Player::turnStep_ = 0.15;
-const double Player::moveStep_ = 3;
+const double Player::turnStep_ = 0.3;
+const double Player::moveStep_ = 6;
 const double Player::viewAngleHalfWidth_ = M_PI / 4;
 
 void Player::turnLeft() {

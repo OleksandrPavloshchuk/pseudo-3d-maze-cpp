@@ -52,14 +52,17 @@ bool Renderer::initialize() {
 void Renderer::mainLoop() {
 	SDL_SetRenderDrawColor(renderer_, 30, 30, 40, 255);
         SDL_RenderClear(renderer_);
-	render();
         	    	
     	SDL_Event event;
-    	while (true) {
+    	bool running = true;
+    	while (running) {
         	while (SDL_PollEvent(&event)) {
         		if (event.type == SDL_EVENT_QUIT) {
-                		return;
+                		running = false;
+                		break;
             		}
+            		handleEvent(&event);
+			render();
         	}
     	}	
 }

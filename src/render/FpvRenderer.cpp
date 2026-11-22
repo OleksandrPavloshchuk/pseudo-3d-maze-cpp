@@ -5,6 +5,8 @@
 #include <cmath>
 #include <vector>
 
+#include <iostream>
+
 #include "FpvRenderer.hpp"
 #include "../model/MazeCell.hpp"
 #include "../model/IntersectionsDetector.hpp"
@@ -13,9 +15,9 @@ const double K = 25000;
 
 // TODO temporary until real textures rendering
 
-const Pixel PIXEL_CEILING{204, 204, 255, 255};
+const Pixel PIXEL_CEILING{204, 255, 255, 255};
 const Pixel PIXEL_FLOOR{153, 153, 153, 255};
-const Pixel PIXEL_WALL{153, 204, 153, 255};
+const Pixel PIXEL_WALL{102, 153, 153, 255};
 const Pixel PIXEL_PICTURE{204, 102, 153, 255};
 const Pixel PIXEL_WINDOW{204, 204, 255, 255};
 const Pixel PIXEL_EXIT_DOOR{255, 255, 204, 255};
@@ -46,7 +48,7 @@ const Pixel getWallPixel(
         )
         return getPixelFromTexture(intersection.cell!.type, intersection.getTextureX(), textureY)
 */
-	const MazeCellType type = intersection.getCell()->getType();
+	const MazeCellType type = intersection.getCell()->getType();	
 	return getWallPixel(type);
 }
 
@@ -97,8 +99,8 @@ const Pixel getPixel(
         } else if (y >= wallBottom) {
 		return getFloorPixel(y, intersection);
         } else {
-		return PIXEL_WALL;
 //		return getWallPixel(y, lineHeight, wallTop, intersection);
+		return PIXEL_WALL;		
         }
 }
 
@@ -228,4 +230,47 @@ void FpvRenderer::updateFrameBuffer() {
 		drawVerticalLine(x, intersections[index]);
         }	
 }
+
+void FpvRenderer::handleEvent(SDL_Event *event) {
+	switch (event->type) {
+		case SDL_EVENT_KEY_DOWN:
+			setKeyState(event, KeyState::DOWN);
+			break;
+		case SDL_EVENT_KEY_UP:
+			setKeyState(event, KeyState::UP);
+			break;
+	}
+}
+
+void FpvRenderer::setKeyState(SDL_Event *event, KeyState state) {
+	bool doMove = state == KeyState::DOWN;
+        switch (event->key.key) {
+            case SDLK_UP:
+            	forwardState_ = state;
+            	if (doMove) {
+	                player_.stepForward(maze_);
+	        }
+                break;
+            case SDLK_DOWN:
+            	backwardState_ = state;
+            	if (doMove) {
+                	player_.stepBackward(maze_);
+                }
+                break;
+            case SDLK_LEFT:
+            	leftState_ = state;
+            	if (doMove) {
+			player_.turnLeft();
+		}
+                break;
+            case SDLK_RIGHT:
+            	rightState_ = state;
+            	if (doMove) {
+			player_.turnRight();
+		}
+                break;
+        }
+}
+
+
 

@@ -27,6 +27,7 @@ public:
 	void mainLoop();
 	
 protected:
+	virtual void handleEvent(SDL_Event *event) = 0;
 	virtual void updateFrameBuffer() = 0;
 	
 	void setPixel(int x, int y, Pixel pixel) {
