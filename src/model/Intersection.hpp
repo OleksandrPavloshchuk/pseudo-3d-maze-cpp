@@ -14,9 +14,8 @@ enum class Edge {
 	VERTICAL
 };
 
-class Intersection {
-public:
-	Intersection(
+struct IntersectionBase {
+	IntersectionBase(
 		const DoublePoint &point,
 		const Edge edge	
 	):
@@ -24,26 +23,41 @@ public:
 		edge_(edge)
 	{
 	}
+	
+	const DoublePoint point_;
+	const Edge edge_;
+};
+
+class Intersection {
+public:
+	Intersection(
+		const IntersectionBase &base,
+		const MazeCell &cell,
+		double a,
+		double dx, 
+		double dy,
+		double distance
+	):
+		base_(base),
+		cell_(cell),
+		a_(a),
+		dx_(dx),
+		dy_(dy),
+		distance_(distance)
+	{
+	}
 
 	double getA() const { return a_; }
 	double getDx() const { return dx_; }
 	double getDy() const { return dy_; }
 	double getDistance() const { return distance_; }
-	MazeCell *getCell() const { return cell_; }
+	const MazeCell& getCell() const { return cell_; }
 	
 	double getTextureX() const;
 	
-	void enrich(
-        	double a,
-        	double dx,
-        	double dy,
-        	MazeCell *cell,
-	        double distance	
-	);
+	DoublePoint getPoint() const { return base_.point_; }
 	
-	DoublePoint getPoint() const { return point_; }
-	
-	static std::vector<Intersection> getEdgesIntersection(
+	static std::vector<IntersectionBase> getEdgesIntersection(
 		const MazeCell &cell,
         	const DoublePoint &src,
         	const double dx,
@@ -53,13 +67,13 @@ public:
 private:
     	double getOffset() const;
     	double getEdgeStart() const;
+    	
+    	const IntersectionBase base_;
 
 	double a_;
 	double dx_;
 	double dy_;
 	double distance_;
-	const DoublePoint point_;
-	const Edge edge_;
-	MazeCell *cell_;	
+	const MazeCell cell_;	
 	
 };

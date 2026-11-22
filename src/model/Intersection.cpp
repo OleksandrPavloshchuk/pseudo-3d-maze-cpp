@@ -9,6 +9,7 @@
 #include "Point.hpp"
 #include "Intersection.hpp"
 
+/*
 void Intersection::enrich(
 	double a,
 	double dx,
@@ -22,56 +23,57 @@ void Intersection::enrich(
 	dy_ = dy;
 	distance_ = distance;
 }
+*/
 
 double Intersection::getTextureX() const {
 	return floor(getOffset() - getEdgeStart());
 }
 
 double Intersection::getOffset() const {
-	return edge_ == Edge::HORIZONTAL
-	        ? point_.getX()
-	        : point_.getY();
+	return base_.edge_ == Edge::HORIZONTAL
+	        ? base_.point_.getX()
+	        : base_.point_.getY();
 }
 
 double Intersection::getEdgeStart() const {
-	return edge_ == Edge::HORIZONTAL
-	        ? cell_->getCenter().getX() - TEXTURE_SIZE / 2
-	        : cell_->getCenter().getY() - TEXTURE_SIZE / 2;
+	return base_.edge_ == Edge::HORIZONTAL
+	        ? cell_.getCenter().getX() - TEXTURE_SIZE / 2
+	        : cell_.getCenter().getY() - TEXTURE_SIZE / 2;
 }
 
-std::vector<Intersection> calculateVerticalEdgesIntersection(const MazeCell &cell, const DoublePoint &p) {
+std::vector<IntersectionBase> calculateVerticalEdgesIntersection(const MazeCell &cell, const DoublePoint &p) {
 	return {
-		Intersection(DoublePoint(cell.x0(), p.getY()), Edge::VERTICAL),
-		Intersection(DoublePoint(cell.x1(), p.getY()), Edge::VERTICAL)
+		IntersectionBase(DoublePoint(cell.x0(), p.getY()), Edge::VERTICAL),
+		IntersectionBase(DoublePoint(cell.x1(), p.getY()), Edge::VERTICAL)
 	};
 }
 
-std::vector<Intersection> calculateHorizontalEdgesIntersection(const MazeCell &cell, const DoublePoint &p) {
+std::vector<IntersectionBase> calculateHorizontalEdgesIntersection(const MazeCell &cell, const DoublePoint &p) {
 	return {
-		Intersection(DoublePoint(p.getX(), cell.y0()), Edge::HORIZONTAL),
-		Intersection(DoublePoint(p.getX(), cell.y1()), Edge::HORIZONTAL)
+		IntersectionBase(DoublePoint(p.getX(), cell.y0()), Edge::HORIZONTAL),
+		IntersectionBase(DoublePoint(p.getX(), cell.y1()), Edge::HORIZONTAL)
 	};
 }
 
-Intersection intersectVertical(
+IntersectionBase intersectVertical(
 	const DoublePoint &p,
 	double dx,
 	double dy,
 	double x
 ) {
-	return Intersection(
+	return IntersectionBase(
 		DoublePoint(x, p.getY() + (x - p.getX()) * dy / dx), 
 		Edge::VERTICAL
 	);
 }
 
-Intersection intersectHorizontal(
+IntersectionBase intersectHorizontal(
 	const DoublePoint &p,
 	double dx,
 	double dy,
 	double y
 ) {
-	return Intersection(
+	return IntersectionBase(
 		DoublePoint(p.getX() + (y - p.getY()) * dx / dy, y), 
 		Edge::HORIZONTAL
 	);
@@ -81,13 +83,13 @@ bool isOnRay(const DoublePoint &src, const DoublePoint &p, double dx, double dy)
 	return (p.getX() - src.getX()) * dx + (p.getY() - src.getY()) * dy >= 0;
 }
 
-std::vector<Intersection> Intersection::getEdgesIntersection(
+std::vector<IntersectionBase> Intersection::getEdgesIntersection(
 	const MazeCell &cell,
         const DoublePoint &src,
         const double dx,
         const double dy
 ) {
-	std::vector<Intersection> all;
+	std::vector<IntersectionBase> all;
 	if (areEqual(dx, 0)) {
 		all = calculateHorizontalEdgesIntersection(cell, src);
 	} else if (areEqual(dy, 0)) {
@@ -99,7 +101,7 @@ std::vector<Intersection> Intersection::getEdgesIntersection(
 		all.push_back(intersectHorizontal(src, dx, dy, cell.y1()));
 	}
 	
-	std::vector<Intersection> result;
+	std::vector<IntersectionBase> result;
 	for (const auto& i : all) {
     		if (cell.isOnEdge(i.point_) && isOnRay(src, i.point_, dx, dy)) {
 			result.push_back(i);

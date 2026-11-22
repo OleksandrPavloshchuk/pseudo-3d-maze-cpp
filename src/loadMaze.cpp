@@ -9,6 +9,8 @@
 #include <vector>
 #include <stdexcept>
 
+#include <iostream>
+
 MazeCellType getType(char src) {
     switch (src) {
         case '#':
@@ -38,6 +40,7 @@ Maze loadMaze(const std::string& mazeResource, double playerWallGap) {
 
     while (std::getline(file, row)) {
         for (int x = 0; x < static_cast<int>(row.size()); x++) {
+        		
             field.emplace_back(
                 IntPoint(x, y),
                 DoublePoint(
@@ -47,7 +50,6 @@ Maze loadMaze(const std::string& mazeResource, double playerWallGap) {
                 getType(row[x])
             );
         }
-
         y++;
     }
 

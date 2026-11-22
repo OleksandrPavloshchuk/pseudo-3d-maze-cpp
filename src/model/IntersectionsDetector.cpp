@@ -25,9 +25,9 @@ std::vector<Intersection> IntersectionsDetector::calculate() {
             
             	std::optional<Intersection> min;	
             	for (auto &c : maze_.getField()) {
-            		std::vector<Intersection> intersections = Intersection::getEdgesIntersection(c, player_.position_, dx, dy);
-            		for (auto &i : intersections) {   
-            			i.enrich(a, dx, dy, &c, distance(i.getPoint()));
+            		std::vector<IntersectionBase> bases = Intersection::getEdgesIntersection(c, player_.position_, dx, dy);
+            		for (auto &b : bases) {
+            			const Intersection i(b, c, a, dx, dy, distance(b.point_));
             			if (c.isWall() && (!min || min->getDistance() > i.getDistance())) {
             				min.emplace(i);
             			}
