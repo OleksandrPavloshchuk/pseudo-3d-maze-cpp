@@ -29,6 +29,7 @@ public:
 	double getDx() const { return dx_; }
 	double getDy() const { return dy_; }
 	double getDistance() const { return distance_; }
+	MazeCell *getCell() const { return cell_; }
 	
 	double getTextureX() const;
 	
@@ -39,6 +40,8 @@ public:
         	MazeCell *cell,
 	        double distance	
 	);
+	
+	DoublePoint getPoint() const { return point_; }
 	
 	static std::vector<Intersection> getEdgesIntersection(
 		const MazeCell &cell,

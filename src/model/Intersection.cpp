@@ -3,6 +3,7 @@
  */
  
 #include <cmath> 
+#include <iostream>
  
 #include "../constants.hpp"
 #include "Point.hpp"
@@ -38,10 +39,6 @@ double Intersection::getEdgeStart() const {
 	        : cell_->getCenter().getY() - TEXTURE_SIZE / 2;
 }
 
-bool isOnRay(const DoublePoint &src, const DoublePoint &p, double dx, double dy) {
-    return (p.getX() - src.getX()) * dx + (p.getY() - src.getY()) * dy >= 0;
-}
-
 std::vector<Intersection> calculateVerticalEdgesIntersection(const MazeCell &cell, const DoublePoint &p) {
 	return {
 		Intersection(DoublePoint(cell.x0(), p.getY()), Edge::VERTICAL),
@@ -63,7 +60,7 @@ Intersection intersectVertical(
 	double x
 ) {
 	return Intersection(
-		DoublePoint(x, p.getY() + (x - p.getY()) * dy / dx), 
+		DoublePoint(x, p.getY() + (x - p.getX()) * dy / dx), 
 		Edge::VERTICAL
 	);
 }
@@ -75,9 +72,13 @@ Intersection intersectHorizontal(
 	double y
 ) {
 	return Intersection(
-		DoublePoint(p.getX() + (y - p.getX()) * dx / dy, y), 
+		DoublePoint(p.getX() + (y - p.getY()) * dx / dy, y), 
 		Edge::HORIZONTAL
 	);
+}
+
+bool isOnRay(const DoublePoint &src, const DoublePoint &p, double dx, double dy) {
+	return (p.getX() - src.getX()) * dx + (p.getY() - src.getY()) * dy >= 0;
 }
 
 std::vector<Intersection> Intersection::getEdgesIntersection(
@@ -86,17 +87,17 @@ std::vector<Intersection> Intersection::getEdgesIntersection(
         const double dx,
         const double dy
 ) {
-	if (areEqual(dx, 0)) {
-		return calculateVerticalEdgesIntersection(cell, src);
-	}
-	if (areEqual(dy, 0)) {
-		return calculateHorizontalEdgesIntersection(cell, src);
-	}
 	std::vector<Intersection> all;
-	all.push_back(intersectVertical(src, dx, dy, cell.x0()));
-	all.push_back(intersectVertical(src, dx, dy, cell.x1()));
-	all.push_back(intersectHorizontal(src, dx, dy, cell.y0()));
-	all.push_back(intersectHorizontal(src, dx, dy, cell.y1()));
+	if (areEqual(dx, 0)) {
+		all = calculateHorizontalEdgesIntersection(cell, src);
+	} else if (areEqual(dy, 0)) {
+		all = calculateVerticalEdgesIntersection(cell, src);
+	} else {
+		all.push_back(intersectVertical(src, dx, dy, cell.x0()));
+		all.push_back(intersectVertical(src, dx, dy, cell.x1()));
+		all.push_back(intersectHorizontal(src, dx, dy, cell.y0()));
+		all.push_back(intersectHorizontal(src, dx, dy, cell.y1()));
+	}
 	
 	std::vector<Intersection> result;
 	for (const auto& i : all) {

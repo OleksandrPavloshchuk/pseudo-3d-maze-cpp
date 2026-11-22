@@ -13,8 +13,8 @@
 // Global variables
 const int playerWallGap = 6;
 
-const int fpvWidth = 1024;
-const int fpvHeight = 768;
+const int fpvWidth = 640;
+const int fpvHeight = 480;
 
 // Entry point
 int main() {
@@ -28,9 +28,9 @@ int main() {
         	TEXTURE_SIZE * 1.5
     	);
 
-    	const Player player(startPos, fpvWidth);
+    	Player player(startPos, fpvWidth);
     	
-    	FpvRenderer renderer(fpvWidth, fpvHeight);
+    	FpvRenderer renderer(fpvWidth, fpvHeight, maze, player);
     	if (!renderer.initialize()) {
     		return 1;
     	}
