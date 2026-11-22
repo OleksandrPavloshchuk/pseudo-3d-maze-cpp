@@ -25,6 +25,8 @@ public:
     	pixels_(width * height, Pixel{})
     {
     }
+    
+    double getHeight() const { return height_; }
 
     void clear();
     void setPixel(int x, int y, Pixel pixel);
@@ -33,7 +35,6 @@ public:
     int getWidth() const { return width_; } 
 
 private:
-    Pixel emptyPixel_;
 
     int width_;
     int height_;

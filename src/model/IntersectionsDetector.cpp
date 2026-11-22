@@ -19,7 +19,8 @@ double IntersectionsDetector::distance(const DoublePoint &p) {
 std::vector<Intersection> IntersectionsDetector::calculate() {
 	std::vector<Intersection> result;
 	
-	for (double a = -player_.viewAngleHalfWidth_; a <= player_.viewAngleHalfWidth_; a += player_.viewAngleStep_) {
+	const double halfAngle = player_.viewAngleHalfWidth_;
+	for (double a = -halfAngle; a <= halfAngle; a += player_.viewAngleStep_) {
 		const double dx = cos(a + player_.viewAngleMiddle_);
             	const double dy = sin(a + player_.viewAngleMiddle_);
             

@@ -9,34 +9,18 @@
 #include "Point.hpp"
 #include "Intersection.hpp"
 
-/*
-void Intersection::enrich(
-	double a,
-	double dx,
-        double dy,
-        MazeCell *cell,
-	double distance		
-) {
-	cell_ = cell;
-	a_ = a;
-	dx_ = dx;
-	dy_ = dy;
-	distance_ = distance;
-}
-*/
-
 double Intersection::getTextureX() const {
 	return floor(getOffset() - getEdgeStart());
 }
 
 double Intersection::getOffset() const {
-	return base_.edge_ == Edge::HORIZONTAL
+	return base_.isHorizontal()
 	        ? base_.point_.getX()
 	        : base_.point_.getY();
 }
 
 double Intersection::getEdgeStart() const {
-	return base_.edge_ == Edge::HORIZONTAL
+	return base_.isHorizontal()
 	        ? cell_.getCenter().getX() - TEXTURE_SIZE / 2
 	        : cell_.getCenter().getY() - TEXTURE_SIZE / 2;
 }

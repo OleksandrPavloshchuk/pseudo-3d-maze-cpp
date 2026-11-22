@@ -24,6 +24,8 @@ struct IntersectionBase {
 	{
 	}
 	
+	bool isHorizontal() const { return edge_==Edge::HORIZONTAL; }
+	
 	const DoublePoint point_;
 	const Edge edge_;
 };
