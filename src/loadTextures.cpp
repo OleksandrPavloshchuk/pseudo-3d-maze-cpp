@@ -2,28 +2,57 @@
  * loadTextures.cpp
  */
 
+#include <string> 
+#include <format> 
+#include <iostream> 
 #include <string_view> 
 #include <array> 
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+
 #include "loadTextures.hpp"
 
 constexpr std::array<std::string_view, 6> TEXTURE_FILES = {
-	"ceiling",
+	"ceiling" /* ,
 	"floor",
 	"wall",
 	"window",
 	"exit_door",
-	"picture"
+	"picture" */
 };
 
-void prepareTexture(const std::string_view textureFileName) {
-	// TODO
-}
-
-void prepareTextures() {
-	for (const auto name : TEXTURE_FILES) {
-		prepareTexture(name);
+bool loadTexture(const std::string_view textureFileName) {
+	// TODO set directory awith textures as subpath of working directory
+	const std::string filePath = std::format("/home/oleksandr/personal/c++/pseudo-3d-maze-cpp/textures/{}.png", textureFileName);
+	SDL_Surface* surface = IMG_Load(filePath.c_str());
+	if (!surface) {
+		SDL_Log("Load image '%s' failed: %s", filePath.c_str(), SDL_GetError());
+		return false;
 	}
 	
+	SDL_Surface* rgba = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);	
+	if (!rgba) {
+		SDL_DestroySurface(surface);
+    		SDL_Log("Cannot convert texture: %s", SDL_GetError());
+    		return false;
+	}	
+	
+	// TODO
+
+	
+	SDL_DestroySurface(surface);
+	return true;
+}
+
+bool loadTextures() {
+	for (const auto name : TEXTURE_FILES) {
+		if (name.length()>0) {
+			if (!loadTexture(name)) {
+				return false;
+			}
+		}
+	}
+	return true;	
 }
 
 /*

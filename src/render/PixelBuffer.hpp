@@ -1,5 +1,5 @@
 /**
- * FrameBuffer.hpp
+ * PixelBuffer.hpp
  */
  
 #pragma once
@@ -14,9 +14,9 @@ struct Pixel {
     uint8_t a;
 };
 
-class FrameBuffer {
+class PixelBuffer {
 public:
-    FrameBuffer(
+    PixelBuffer(
     	int width, 
     	int height
     ):

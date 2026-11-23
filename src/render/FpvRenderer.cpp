@@ -9,6 +9,7 @@
 
 #include "FpvRenderer.hpp"
 #include "../constants.hpp"
+#include "../loadTextures.hpp"
 #include "../model/MazeCell.hpp"
 #include "../model/IntersectionsDetector.hpp"
 

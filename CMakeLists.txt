@@ -30,7 +30,7 @@ add_executable(${PROJECT_NAME}
 	${SRC_MAIN}/model/Intersection.cpp
 	${SRC_MAIN}/model/IntersectionsDetector.cpp	
 	${SRC_MAIN}/model/Player.cpp
-	${SRC_MAIN}/render/FrameBuffer.cpp
+	${SRC_MAIN}/render/PixelBuffer.cpp
 	${SRC_MAIN}/render/Renderer.cpp
 	${SRC_MAIN}/render/FpvRenderer.cpp
 )
@@ -44,4 +44,10 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-Wshadow
 )
 
+find_package(SDL3 REQUIRED CONFIG)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
+
+find_package(SDL3_image REQUIRED CONFIG)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL3_image::SDL3_image)
+
+

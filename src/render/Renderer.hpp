@@ -7,7 +7,7 @@
 #include <string>
 #include <SDL3/SDL.h>
 
-#include "FrameBuffer.hpp"
+#include "PixelBuffer.hpp"
 
 class Renderer {
 public:
@@ -42,7 +42,7 @@ private:
 	
 	const std::string title_;
 	
-	FrameBuffer frameBuffer_;
+	PixelBuffer frameBuffer_;
 
 	SDL_Window* window_ = nullptr;
 	SDL_Renderer* renderer_ = nullptr;

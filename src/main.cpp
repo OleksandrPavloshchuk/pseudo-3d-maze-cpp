@@ -19,7 +19,9 @@ const int fpvHeight = 600;
 
 // Entry point
 int main() {
-	prepareTextures();
+	if (!loadTextures()) {
+		return 1;
+	}
 
     	const Maze maze = loadMaze(
         	"/home/oleksandr/personal/c++/pseudo-3d-maze-cpp/mazes/3.txt",

@@ -7,6 +7,6 @@
 #include "constants.hpp"
 #include "loadMaze.hpp"
 
-void prepareTextures();
+bool loadTextures();
 
 
