@@ -33,6 +33,7 @@ public:
     
     const std::vector<Pixel>& getPixels() const { return pixels_; }
     int getWidth() const { return width_; } 
+    Pixel getPixel(int x, int y) const { return pixels_[y * width_ + x]; }
 
 private:
 

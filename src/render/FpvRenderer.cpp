@@ -3,6 +3,7 @@
  */
  
 #include <cmath>
+#include <algorithm>
 #include <vector>
 
 #include <iostream>
@@ -24,16 +25,16 @@ const Pixel PIXEL_PICTURE{204, 102, 153, 255};
 const Pixel PIXEL_WINDOW{204, 204, 255, 255};
 const Pixel PIXEL_EXIT_DOOR{255, 255, 204, 255};
 
-const Pixel getWallPixel(MazeCellType type) {
+const char* getWallTextureName(MazeCellType type) {
 	switch(type) {
 	case MazeCellType::WALL:
-		return PIXEL_WALL;
+		return "wall";
 	case MazeCellType::WINDOW:
-		return PIXEL_WINDOW;	
+		return "window";
 	case MazeCellType::PICTURE:
-		return PIXEL_PICTURE;	
+		return "picture";	
 	default:
-		return PIXEL_EXIT_DOOR;	
+		return "exitDoor";	
 	}
 }
 
@@ -47,14 +48,11 @@ const Pixel getWallPixel(
 	double wallTop,
 	Intersection &intersection
 ) {
-/*
-        const textureY = Math.min(
-            TEXTURE_SIZE - 1,
-            Math.floor((y - wallTop) * TEXTURE_SIZE / lineHeight)
-        )
-        return getPixelFromTexture(intersection.cell!.type, intersection.getTextureX(), textureY)
-*/
-	return getWallPixel(intersection.getCell().getType());
+        const int textureY = std::min(
+            (double) (TEXTURE_SIZE - 1),
+            floor((y - wallTop) * TEXTURE_SIZE / lineHeight)
+        );
+        return getPixelFromTexture(getWallTextureName(intersection.getCell().getType()), intersection.getTextureX(), textureY);
 }
 
 /*
