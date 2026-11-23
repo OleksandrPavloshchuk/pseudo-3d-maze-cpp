@@ -14,16 +14,7 @@
 #include "../model/MazeCell.hpp"
 #include "../model/IntersectionsDetector.hpp"
 
-const double K = 25000;
-
-// TODO temporary until real textures rendering
-
-const Pixel PIXEL_CEILING{204, 255, 255, 255};
-const Pixel PIXEL_FLOOR{153, 153, 153, 255};
-const Pixel PIXEL_WALL{102, 153, 153, 255};
-const Pixel PIXEL_PICTURE{204, 102, 153, 255};
-const Pixel PIXEL_WINDOW{204, 204, 255, 255};
-const Pixel PIXEL_EXIT_DOOR{255, 255, 204, 255};
+const double K = 30000;
 
 const char* getWallTextureName(MazeCellType type) {
 	switch(type) {
@@ -38,8 +29,8 @@ const char* getWallTextureName(MazeCellType type) {
 	}
 }
 
-const int toTexture(double n) {
-        return floor(((static_cast<int>(n) % TEXTURE_SIZE) + TEXTURE_SIZE) % TEXTURE_SIZE);
+int toTexture(double n) {
+    	return static_cast<int>(floor(fmod(n, TEXTURE_SIZE) + TEXTURE_SIZE)) % TEXTURE_SIZE;
 }
 
 const Pixel getWallPixel(
@@ -55,50 +46,53 @@ const Pixel getWallPixel(
         return getPixelFromTexture(getWallTextureName(intersection.getCell().getType()), intersection.getTextureX(), textureY);
 }
 
-/*
-    getHorizontalPixel = (
-        y: number,
-        intersection: Intersection,
-        textureType: TextureType
-    ): Pixel => {
+const Pixel getHorizontalPixel(
+        double y,
+        double imageHeight,
+        const Player &player,
+        Intersection &intersection,
+        const char *texture
+) {
         // 0.5 - we use center of pixel
-        const distance = K / (2 * Math.abs(y + 0.5 - this.imageHeight / 2))
+        const double distance = K / (2.0 * std::abs(y + 0.5 - imageHeight / 2.0));
 
-        const worldX = this.playerPosition.x + distance * intersection.dx!
-        const worldY = this.playerPosition.y + distance * intersection.dy!
+        const double worldX = player.position_.getX() + distance * intersection.getDx();
+        const double worldY = player.position_.getY() + distance * intersection.getDy();
 
-        return getPixelFromTexture(textureType, this.toTexture(worldX), this.toTexture(worldY))
-    }
-    
-*/
+        return getPixelFromTexture(texture, toTexture(worldX), toTexture(worldY));
+}
 
 const Pixel getFloorPixel(
 	double y,
+        double imageHeight,
+        const Player &player,
 	Intersection &intersection
 ) { 
-//this.getHorizontalPixel(y, intersection, "floor")
-	return PIXEL_FLOOR;
+	return getHorizontalPixel(y, imageHeight, player, intersection, "floor");
 }
 
 const Pixel getCeilingPixel(
 	double y,
+        double imageHeight,
+        const Player &player,
 	Intersection &intersection
 ) { 
-// this.getHorizontalPixel(y, intersection, "ceiling")
-	return PIXEL_CEILING;	
+	return getHorizontalPixel(y, imageHeight, player, intersection, "ceiling");
 }
 
 const Pixel getPixel(
         double y,
         double wallTop,
         double wallBottom,
+        double imageHeight,
         double lineHeight,
+        const Player &player,
         Intersection &intersection
 ) {
 	if (y < wallTop) {
-		return getCeilingPixel(y, intersection);
+		return getCeilingPixel(y, imageHeight, player, intersection);
         } else if (y >= wallBottom) {
-		return getFloorPixel(y, intersection);
+		return getFloorPixel(y, imageHeight, player, intersection);
         } else {
 		return getWallPixel(y, lineHeight, wallTop, intersection);
         }
@@ -114,7 +108,7 @@ void FpvRenderer::drawVerticalLine(
 	const double wallBottom = floor((height_ + lineHeight) / 2);
 	
         for (int y = 0; y < height_; y++) {
-		const Pixel pixel = getPixel(y, wallTop, wallBottom, lineHeight, intersection);
+		const Pixel pixel = getPixel(y, wallTop, wallBottom, height_, lineHeight, player_, intersection);
 		setPixel(x, y, pixel);
 	}	
 }
