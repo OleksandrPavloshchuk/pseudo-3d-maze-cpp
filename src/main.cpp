@@ -6,6 +6,7 @@
 
 #include "constants.hpp"
 #include "loadMaze.hpp"
+#include "loadTextures.hpp"
 #include "model/Player.hpp"
 #include "model/Maze.hpp"
 #include "render/FpvRenderer.hpp"
@@ -18,6 +19,8 @@ const int fpvHeight = 600;
 
 // Entry point
 int main() {
+	prepareTextures();
+
     	const Maze maze = loadMaze(
         	"/home/oleksandr/personal/c++/pseudo-3d-maze-cpp/mazes/3.txt",
         	playerWallGap
