@@ -22,7 +22,8 @@ public:
 		const Maze &maze,
 		Player &player
 	):
-		Renderer("Pseudo 3D Maze (2)", width, height),
+		Renderer("Pseudo 3D Maze (3)", width, height),
+		k_(50 * height),
 		maze_(maze),
 		player_(player),
 		forwardState_(KeyState::UP),
@@ -37,9 +38,13 @@ protected:
 	void updateFrameBuffer();
 	
 private:
-	void drawVerticalLine( double x, Intersection &intersection);
+	void drawVerticalLine(double x, Intersection &intersection);
+	const Pixel getPixel(double y, double wallTop, double wallBottom, double lineHeight, Intersection &intersection);
+	const Pixel getHorizontalPixel(double y, Intersection &intersection, const char *texture);
+	
 	void setKeyState(SDL_Event *event, KeyState keyState);
 
+	const double k_;
 	const Maze &maze_;
 	Player &player_;
 	KeyState forwardState_;

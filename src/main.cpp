@@ -14,8 +14,8 @@
 // Global variables
 const int playerWallGap = 6;
 
-const int fpvWidth = 800;
-const int fpvHeight = 600;
+const int fpvWidth = 640;
+const int fpvHeight = 480;
 
 // Entry point
 int main() {
