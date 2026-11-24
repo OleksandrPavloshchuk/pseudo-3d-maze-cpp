@@ -3,6 +3,7 @@
  */
 
 #include "Player.hpp"
+#include "../TrigonometryCache.hpp"
 
 const double Player::turnStep_ = 0.3;
 const double Player::moveStep_ = 6;
@@ -36,7 +37,7 @@ void Player::stepForward(const Maze &maze) {
 }
 
 void Player::stepBackward(const Maze &maze) {
-	const double x = position_.getX() - cos(viewAngleMiddle_) * moveStep_;
-	const double y = position_.getY() - sin(viewAngleMiddle_) * moveStep_;
+	const double x = position_.getX() - cachedCos(viewAngleMiddle_) * moveStep_;
+	const double y = position_.getY() - cachedSin(viewAngleMiddle_) * moveStep_;
 	doStep(maze, x, y);
 }

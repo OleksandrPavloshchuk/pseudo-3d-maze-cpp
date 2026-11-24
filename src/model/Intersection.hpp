@@ -41,11 +41,11 @@ public:
 		double distance
 	):
 		base_(base),
-		cell_(cell),
 		a_(a),
 		dx_(dx),
 		dy_(dy),
-		distance_(distance)
+		distance_(distance),
+		cell_(cell)
 	{
 	}
 

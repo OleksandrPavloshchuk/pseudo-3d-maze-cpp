@@ -8,8 +8,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_BUILD_TYPE Release)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Release")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Release")
 
 set(SRC_MAIN "src")
 
@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
 	${SRC_MAIN}/main.cpp
 	${SRC_MAIN}/loadMaze.cpp
 	${SRC_MAIN}/loadTextures.cpp
+	${SRC_MAIN}/TrigonometryCache.cpp
 	${SRC_MAIN}/model/Point.cpp
 	${SRC_MAIN}/model/MazeCell.cpp
 	${SRC_MAIN}/model/Maze.cpp
@@ -49,5 +50,23 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 find_package(SDL3_image REQUIRED CONFIG)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3_image::SDL3_image)
+
+message(STATUS "CMAKE_SOURCE_DIR = ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMAKE_BINARY_DIR = ${CMAKE_BINARY_DIR}")
+message(STATUS "CMAKE_RUNTIME_OUTPUT_DIRECTORY = ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+message(STATUS "PROJECT_SOURCE_DIR = ${PROJECT_SOURCE_DIR}")
+message(STATUS "PROJECT_BINARY_DIR = ${PROJECT_BINARY_DIR}")
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/textures"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/textures"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/mazes"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/mazes"
+)
+
+#file(COPY textures DESTINATION ${CMAKE_BINARY_DIR})
+#file(COPY mazes DESTINATION ${CMAKE_BINARY_DIR})
 
 

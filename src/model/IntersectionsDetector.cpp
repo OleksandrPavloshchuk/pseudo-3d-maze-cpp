@@ -6,6 +6,7 @@
 #include <optional> 
  
 #include "IntersectionsDetector.hpp"
+#include "../TrigonometryCache.hpp"
 
 double pow2(double n) {
 	return n * n;
@@ -21,8 +22,8 @@ std::vector<Intersection> IntersectionsDetector::calculate() {
 	
 	const double halfAngle = player_.viewAngleHalfWidth_;
 	for (double a = -halfAngle; a <= halfAngle; a += player_.viewAngleStep_) {
-		const double dx = cos(a + player_.viewAngleMiddle_);
-            	const double dy = sin(a + player_.viewAngleMiddle_);
+		const double dx = cachedCos(a + player_.viewAngleMiddle_);
+            	const double dy = cachedSin(a + player_.viewAngleMiddle_);
             
             	std::optional<Intersection> min;	
             	for (auto &c : maze_.getField()) {

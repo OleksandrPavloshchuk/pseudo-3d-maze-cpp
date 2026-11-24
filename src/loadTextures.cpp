@@ -27,9 +27,8 @@ constexpr std::array<std::string_view, 6> TEXTURE_FILES = {
 
 std::vector<PixelBuffer> storage;
 
-bool loadTexture(const std::string_view textureFileName) {
-	// TODO set directory awith textures as subpath of working directory
-	const std::string filePath = std::format("/home/oleksandr/personal/c++/pseudo-3d-maze-cpp/textures/{}.png", textureFileName);
+bool loadTexture(std::filesystem::path &executableDir, std::string_view textureFileName) {
+	const std::filesystem::path filePath = executableDir / "textures" /  (std::string(textureFileName) + ".png");
 	SDL_Surface* surface = IMG_Load(filePath.c_str());
 	if (!surface) {
 		SDL_Log("Load image '%s' failed: %s", filePath.c_str(), SDL_GetError());
@@ -83,10 +82,10 @@ bool loadTexture(const std::string_view textureFileName) {
 	return true;
 }
 
-bool loadTextures() {
+bool loadTextures(std::filesystem::path &executableDir) {
 	for (const auto name : TEXTURE_FILES) {
 		if (name.length()>0) {
-			if (!loadTexture(name)) {
+			if (!loadTexture(executableDir, name)) {
 				return false;
 			}
 		}
