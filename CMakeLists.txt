@@ -25,6 +25,7 @@ add_executable(${PROJECT_NAME}
 	${SRC_MAIN}/loadMaze.cpp
 	${SRC_MAIN}/loadTextures.cpp
 	${SRC_MAIN}/TrigonometryCache.cpp
+	${SRC_MAIN}/PerformanceMeter.cpp
 	${SRC_MAIN}/model/Point.cpp
 	${SRC_MAIN}/model/MazeCell.cpp
 	${SRC_MAIN}/model/Maze.cpp

@@ -13,6 +13,7 @@
 #include "constants.hpp"
 #include "loadMaze.hpp"
 #include "loadTextures.hpp"
+#include "PerformanceMeter.hpp"
 #include "model/Player.hpp"
 #include "model/Maze.hpp"
 #include "render/FpvRenderer.hpp"
@@ -20,8 +21,8 @@
 // Global variables
 const int playerWallGap = 6;
 
-const int fpvWidth = 800;
-const int fpvHeight = 600;
+const int fpvWidth = 640;
+const int fpvHeight = 480;
 
 std::filesystem::path getExecutableDir() {
     std::array<char, 4096> buffer{};
@@ -65,8 +66,11 @@ int main() {
     	FpvRenderer renderer(fpvWidth, fpvHeight, maze, player);
     	if (!renderer.initialize()) {
     		return 1;
-    	}    	
+    	}
+    	
+    	PerformanceMeter::init();    	
     	renderer.mainLoop();
+    	PerformanceMeter::printReport();
     	
     	return 0;
     		

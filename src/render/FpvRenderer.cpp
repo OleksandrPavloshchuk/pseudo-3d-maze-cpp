@@ -10,8 +10,12 @@
 #include "FpvRenderer.hpp"
 #include "../constants.hpp"
 #include "../loadTextures.hpp"
+#include "../PerformanceMeter.hpp"
 #include "../model/MazeCell.hpp"
 #include "../model/IntersectionsDetector.hpp"
+
+//Pixel pixelCeiling{102, 153, 204, 255};
+//Pixel pixelFloor{153, 153, 204, 255};
 
 const char* getWallTextureName(MazeCellType type) {
 	switch(type) {
@@ -66,7 +70,9 @@ const Pixel FpvRenderer::getPixel(
 ) {
 	if (y < wallTop) {
 		return getHorizontalPixel(y, intersection, "ceiling");
+//		return pixelCeiling;
         } else if (y >= wallBottom) {
+//		return pixelFloor;
 		return getHorizontalPixel(y, intersection, "floor");
         } else {
 		return getWallPixel(y, lineHeight, wallTop, intersection);
@@ -89,6 +95,7 @@ void FpvRenderer::drawVerticalLine(
 }
 
 void FpvRenderer::updateFrameBuffer() {
+	PerformanceMeter::startTimeTracking();
 
 	IntersectionsDetector intersectionsDetector(player_, maze_);
 	std::vector<Intersection> intersections = intersectionsDetector.calculate();
@@ -104,6 +111,7 @@ void FpvRenderer::updateFrameBuffer() {
 	for (auto &thread : threads) {
     		thread.join();
 	}
+	PerformanceMeter::stopTimeTracking();
 }
 
 void FpvRenderer::updateFrameBuffer(
