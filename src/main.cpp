@@ -20,9 +20,8 @@
 // Global variables
 const int playerWallGap = 6;
 
-const int fpvWidth = 640;
-const int fpvHeight = 480;
-
+const int fpvWidth = 800;
+const int fpvHeight = 600;
 
 std::filesystem::path getExecutableDir() {
     std::array<char, 4096> buffer{};

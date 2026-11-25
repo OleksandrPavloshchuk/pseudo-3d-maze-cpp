@@ -5,16 +5,13 @@
 #include <cmath>
 #include <algorithm>
 #include <vector>
-
-#include <iostream>
+#include <thread>
 
 #include "FpvRenderer.hpp"
 #include "../constants.hpp"
 #include "../loadTextures.hpp"
 #include "../model/MazeCell.hpp"
 #include "../model/IntersectionsDetector.hpp"
-
-// const double K = 30000;
 
 const char* getWallTextureName(MazeCellType type) {
 	switch(type) {
@@ -92,12 +89,32 @@ void FpvRenderer::drawVerticalLine(
 }
 
 void FpvRenderer::updateFrameBuffer() {
+
 	IntersectionsDetector intersectionsDetector(player_, maze_);
 	std::vector<Intersection> intersections = intersectionsDetector.calculate();
-	
+
+	std::vector<std::thread> threads;
+
+	for (int t = 0; t < threadsCount_; ++t) {
+	    threads.emplace_back([&, intersections, t]() {
+	        updateFrameBuffer(intersections, t);
+	    });
+	}
+
+	for (auto &thread : threads) {
+    		thread.join();
+	}
+}
+
+void FpvRenderer::updateFrameBuffer(
+	std::vector<Intersection> intersections,
+	int segment
+) {	
 	for (int x = 0; x < width_; x++) {
-		const int index = floor(x * intersections.size() / width_);
-		drawVerticalLine(x, intersections[index]);
+		if (x % threadsCount_ == segment) {
+			const int index = floor(x * intersections.size() / width_);
+			drawVerticalLine(x, intersections[index]);
+		}
         }	
 }
 
@@ -141,6 +158,7 @@ void FpvRenderer::setKeyState(SDL_Event *event, KeyState state) {
                 break;
         }
 }
+
 
 
 

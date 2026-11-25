@@ -38,12 +38,14 @@ protected:
 	void updateFrameBuffer();
 	
 private:
+	void updateFrameBuffer(std::vector<Intersection> intersections, int segment);
 	void drawVerticalLine(double x, Intersection &intersection);
 	const Pixel getPixel(double y, double wallTop, double wallBottom, double lineHeight, Intersection &intersection);
 	const Pixel getHorizontalPixel(double y, Intersection &intersection, const char *texture);
 	
 	void setKeyState(SDL_Event *event, KeyState keyState);
 
+	static const int threadsCount_ = 4;
 	const double k_;
 	const Maze &maze_;
 	Player &player_;
@@ -51,4 +53,5 @@ private:
 	KeyState backwardState_;
 	KeyState leftState_;
 	KeyState rightState_;
+	
 };
