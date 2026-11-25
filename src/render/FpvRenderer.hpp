@@ -45,7 +45,7 @@ private:
 	
 	void setKeyState(SDL_Event *event, KeyState keyState);
 
-	static const int threadsCount_ = 4;
+	static const int threadsCount_ = 8;
 	const double k_;
 	const Maze &maze_;
 	Player &player_;
